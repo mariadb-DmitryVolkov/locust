@@ -220,7 +220,7 @@ function update_stats_charts(){
             xAxis: {data: stats_history["time"]},
             series: [
                 {data: stats_history["response_time_percentile_50"], markLine: createMarkLine()},
-                {data: stats_history["response_time_percentile_95"]},
+                {data: stats_history["response_time_percentile_90"]},
             ]
         });
 
@@ -235,7 +235,7 @@ function update_stats_charts(){
 
 // init charts
 var rpsChart = new LocustLineChart($(".charts-container"), "Total Requests per Second", ["RPS", "Failures/s"], "reqs/s", ['#00ca5a', '#ff6d6d']);
-var responseTimeChart = new LocustLineChart($(".charts-container"), "Response Times (ms)", ["Median Response Time", "95% percentile"], "ms");
+var responseTimeChart = new LocustLineChart($(".charts-container"), "Response Times (ms)", ["Median Response Time", "90% percentile"], "ms");
 var usersChart = new LocustLineChart($(".charts-container"), "Number of Users", ["Users"], "users");
 charts.push(rpsChart, responseTimeChart, usersChart);
 echarts.connect([rpsChart.chart,responseTimeChart.chart,usersChart.chart])
