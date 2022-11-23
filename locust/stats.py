@@ -574,7 +574,7 @@ class StatsEntry:
             + str(STATS_TYPE_WIDTH)
             + "s %-"
             + str((STATS_NAME_WIDTH - STATS_TYPE_WIDTH) + 4)
-            + "s %7d %12s | %7.1f %7.1f %7.1f %7.1f | %7.2f %11.2f"
+            + "s %7d %12s |%7.1f %7.1f %7.1f %7.1f | %7.2f %11.2f"
         ) % (
             (self.method and self.method + " " or ""),
             self.name,
