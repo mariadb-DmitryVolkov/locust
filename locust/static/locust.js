@@ -258,7 +258,7 @@ function updateStats() {
             if (report.state === "stopped") {
                 if (markerFlags.stop) {
                     markerFlags.stop = false;
-    
+
                     // placeholders to show a skip in the lines between test runs
                     stats_history["time"].push(time);
                     stats_history["user_count"].push({"value": null});
@@ -268,8 +268,8 @@ function updateStats() {
                     stats_history["response_time_percentile_95"].push({"value": null});
                 }
 
-                // update stats chart to ensure the stop spacing appears as part 
-                // of the update loop, otherwise we will "jump" 2 plots on the next run 
+                // update stats chart to ensure the stop spacing appears as part
+                // of the update loop, otherwise we will "jump" 2 plots on the next run
                 update_stats_charts();
 
                 appearStopped();
@@ -309,7 +309,7 @@ function updateStats() {
             console.debug(i);
         }
     }).always(function() {
-        setTimeout(updateStats, 2000);
+        setTimeout(updateStats, 1000);
     });
 }
 updateStats();
