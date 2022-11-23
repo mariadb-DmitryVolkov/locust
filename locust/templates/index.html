@@ -329,7 +329,7 @@
             <td class="numeric"><%= this.num_failures %></td>
             <td class="numeric"><%= this.avg_response_time.toFixed(1) %></td>
             <td class="numeric"><%= this.ninetieth_response_time.toFixed(1) %></td>
-            <td class="numeric"><%= Math.round(this.current_rps*100)/100 %></td>
+            <td class="numeric"><%= Math.round(this.current_rps) %></td>
         </tr>
         <% alternate = !alternate; %>
         ]]>
