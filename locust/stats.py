@@ -111,7 +111,7 @@ except AttributeError:
 STATS_TYPE_WIDTH = 8
 
 """Default interval for how frequently results are written to console."""
-CONSOLE_STATS_INTERVAL_SEC = 2
+CONSOLE_STATS_INTERVAL_SEC = 1
 
 """Default interval for how frequently results are written to history."""
 HISTORY_STATS_INTERVAL_SEC = 5
@@ -120,6 +120,7 @@ HISTORY_STATS_INTERVAL_SEC = 5
 CSV_STATS_INTERVAL_SEC = 1
 CSV_STATS_FLUSH_INTERVAL_SEC = 10
 
+STATS_PRECISION_START_WITH = 1
 
 """
 Default window size/resolution - in seconds - when calculating the current
@@ -390,13 +391,13 @@ class StatsEntry:
         # running in distributed mode, we save the response time rounded in a dict
         # so that 147 becomes 150, 3432 becomes 3400 and 58760 becomes 59000
         if response_time < 100:
-            rounded_response_time = round(response_time)
+            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH)
         elif response_time < 1000:
-            rounded_response_time = round(response_time, -1)
+            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH-1)
         elif response_time < 10000:
-            rounded_response_time = round(response_time, -2)
+            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH-2)
         else:
-            rounded_response_time = round(response_time, -3)
+            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH-3)
 
         # increase request count for the rounded key in response time dict
         self.response_times.setdefault(rounded_response_time, 0)
