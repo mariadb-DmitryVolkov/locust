@@ -11,8 +11,7 @@ from collections import OrderedDict, namedtuple
 from copy import copy
 from itertools import chain
 from tempfile import NamedTemporaryFile
-from typing import (TYPE_CHECKING, Any, Callable, Dict, Iterable, List,
-                    NoReturn, Optional)
+from typing import TYPE_CHECKING, Any, Callable, Dict, Iterable, List, NoReturn, Optional
 from typing import OrderedDict as OrderedDictType
 from typing import Tuple, TypeVar, cast
 
@@ -111,6 +110,7 @@ CSV_STATS_INTERVAL_SEC = 1
 CSV_STATS_FLUSH_INTERVAL_SEC = 10
 
 STATS_PRECISION_START_WITH = 1
+CACHE_SIZE_WINDOW = 10
 
 """
 Default window size/resolution - in seconds - when calculating the current
@@ -383,11 +383,11 @@ class StatsEntry:
         if response_time < 100:
             rounded_response_time = round(response_time, STATS_PRECISION_START_WITH)
         elif response_time < 1000:
-            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH-1)
+            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH - 1)
         elif response_time < 10000:
-            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH-2)
+            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH - 2)
         else:
-            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH-3)
+            rounded_response_time = round(response_time, STATS_PRECISION_START_WITH - 3)
 
         # increase request count for the rounded key in response time dict
         self.response_times.setdefault(rounded_response_time, 0)
@@ -659,7 +659,7 @@ class StatsEntry:
         # we might still use response times (from the cache) for t-CURRENT_RESPONSE_TIME_PERCENTILE_WINDOW-10
         # to calculate the current response time percentile, if we're missing cached values for the subsequent
         # 20 seconds
-        cache_size = CURRENT_RESPONSE_TIME_PERCENTILE_WINDOW + 10
+        cache_size = CURRENT_RESPONSE_TIME_PERCENTILE_WINDOW + CACHE_SIZE_WINDOW
 
         if len(self.response_times_cache) > cache_size:
             # only keep the latest 20 response_times dicts
