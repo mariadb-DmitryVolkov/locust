@@ -265,7 +265,7 @@ function updateStats() {
                     stats_history["current_rps"].push({ "value": null });
                     stats_history["current_fail_per_sec"].push({ "value": null });
                     stats_history["response_time_percentile_50"].push({ "value": null });
-                    stats_history["response_time_percentile_95"].push({ "value": null });
+                    stats_history["response_time_percentile_90"].push({ "value": null });
                 }
 
                 // update stats chart to ensure the stop spacing appears as part
@@ -302,7 +302,7 @@ function updateStats() {
             stats_history["current_rps"].push({ "value": total.current_rps, "users": report.user_count });
             stats_history["current_fail_per_sec"].push({ "value": total.current_fail_per_sec, "users": report.user_count });
             stats_history["response_time_percentile_50"].push({ "value": report.current_response_time_percentile_50, "users": report.user_count });
-            stats_history["response_time_percentile_95"].push({ "value": report.current_response_time_percentile_95, "users": report.user_count });
+            stats_history["response_time_percentile_90"].push({ "value": report.current_response_time_percentile_90, "users": report.user_count });
             update_stats_charts();
 
         } catch (i) {

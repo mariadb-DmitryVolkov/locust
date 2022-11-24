@@ -1,31 +1,22 @@
 from __future__ import annotations
-from abc import abstractmethod
+
+import csv
 import datetime
 import hashlib
-from tempfile import NamedTemporaryFile
+import os
+import signal
 import time
-from collections import namedtuple, OrderedDict
+from abc import abstractmethod
+from collections import OrderedDict, namedtuple
 from copy import copy
 from itertools import chain
-import os
-import csv
-import signal
-import gevent
+from tempfile import NamedTemporaryFile
+from typing import (TYPE_CHECKING, Any, Callable, Dict, Iterable, List,
+                    NoReturn, Optional)
+from typing import OrderedDict as OrderedDictType
+from typing import Tuple, TypeVar, cast
 
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Dict,
-    Iterable,
-    NoReturn,
-    Tuple,
-    List,
-    Optional,
-    OrderedDict as OrderedDictType,
-    Callable,
-    TypeVar,
-    cast,
-)
+import gevent
 
 # @TODO: typing.Protocol is in python >= 3.8
 try:
@@ -33,16 +24,15 @@ try:
 except ImportError:
     from typing_extensions import Protocol, TypedDict  # type: ignore
 
+import logging
 from types import FrameType
 
-from .exception import CatchResponseError
 from .event import Events
-
-import logging
+from .exception import CatchResponseError
 
 if TYPE_CHECKING:
-    from .runners import Runner
     from .env import Environment
+    from .runners import Runner
 
 console_logger = logging.getLogger("locust.stats_logger")
 
@@ -884,7 +874,7 @@ def stats_history(runner: "Runner") -> None:
                 "time": datetime.datetime.now(tz=datetime.timezone.utc).strftime("%H:%M:%S"),
                 "current_rps": stats.total.current_rps or 0,
                 "current_fail_per_sec": stats.total.current_fail_per_sec or 0,
-                "response_time_percentile_95": stats.total.get_current_response_time_percentile(0.95) or 0,
+                "response_time_percentile_90": stats.total.get_current_response_time_percentile(0.90) or 0,
                 "response_time_percentile_50": stats.total.get_current_response_time_percentile(0.5) or 0,
                 "user_count": runner.user_count or 0,
             }
