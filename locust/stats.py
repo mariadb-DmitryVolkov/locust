@@ -436,10 +436,10 @@ class StatsEntry:
     def current_rps(self) -> float:
         if self.stats is None or self.stats.last_request_timestamp is None:
             return 0
-        slice_start_time = max(int(self.stats.last_request_timestamp) - 12, int(self.stats.start_time or 0))
+        slice_start_time = max(int(self.stats.last_request_timestamp) - 1, int(self.stats.start_time or 0))
 
         reqs: List[int | float] = [
-            self.num_reqs_per_sec.get(t, 0) for t in range(slice_start_time, int(self.stats.last_request_timestamp) - 2)
+            self.num_reqs_per_sec.get(t, 0) for t in range(slice_start_time, int(self.stats.last_request_timestamp))
         ]
         return avg(reqs)
 
