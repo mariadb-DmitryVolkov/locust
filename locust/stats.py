@@ -610,7 +610,7 @@ class StatsEntry:
         # and so on
         acceptable_timestamps: List[int] = []
         acceptable_timestamps.append(t - CURRENT_RESPONSE_TIME_PERCENTILE_WINDOW)
-        for i in range(1, 9):
+        for i in range(1, CACHE_SIZE_WINDOW - 1):
             acceptable_timestamps.append(t - CURRENT_RESPONSE_TIME_PERCENTILE_WINDOW - i)
             acceptable_timestamps.append(t - CURRENT_RESPONSE_TIME_PERCENTILE_WINDOW + i)
 
