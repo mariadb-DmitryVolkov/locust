@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 greenlet_exception_handler = greenlet_exception_logger(logger)
 
-DEFAULT_CACHE_TIME = 2.0
+DEFAULT_CACHE_TIME = 1.0
 
 
 class WebUI:

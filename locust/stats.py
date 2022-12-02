@@ -438,13 +438,16 @@ class StatsEntry:
             return 0
 
         now = int(time.time())
+        # TODO set threshold dynamically
+        if self.num_reqs_per_sec.get(now - 1, 0) < 300 or self.num_reqs_per_sec.get(now - 2, 0) < 300:
+            return 0
 
         slice_start_time = max(int(self.stats.last_request_timestamp) - 1, int(self.stats.start_time or 0))
 
-        # reqs: List[int | float] = [
-        #    self.num_reqs_per_sec.get(t, 0) for t in range(slice_start_time, int(self.stats.last_request_timestamp))
-        # ]
-        return self.num_reqs_per_sec.get(now - 1, 0)
+        reqs: List[int | float] = [
+            self.num_reqs_per_sec.get(t, 0) for t in range(slice_start_time, int(self.stats.last_request_timestamp))
+        ]
+        return avg(reqs)
 
     @property
     def current_fail_per_sec(self):
